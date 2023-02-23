@@ -1,0 +1,23 @@
+﻿<HMI RelativeDPI="1.25">
+  <ClientSize>687, 500</ClientSize>
+  <Controls>
+    <Label>
+      <Font>Microsoft Sans Serif, 20pt</Font>
+      <Location>159, 20</Location>
+      <Name>label1</Name>
+      <Size>332, 42</Size>
+      <TabIndex>0</TabIndex>
+      <Text>Prędkość aut w km/h</Text>
+    </Label>
+    <VideoBox>
+      <Location>0, 80</Location>
+      <Name>videoBox1</Name>
+      <Size>684, 417</Size>
+      <SizeMode>Zoom</SizeMode>
+      <TabIndex>1</TabIndex>
+      <Binding>
+        <Input Property="Image" Macro="Main" Variable="con_a17c6dd8_f78c_4a97_a012_b6439a0c3341" VariantIndex="0" />
+      </Binding>
+    </VideoBox>
+  </Controls>
+</HMI>

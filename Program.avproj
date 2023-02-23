@@ -1,0 +1,7 @@
+﻿<AuroraVisionProject Name="Program" Version="5.2.10" Revision="91832" Product="Lite" StartUpProgramName="Main">
+  <Files>
+    <Program Path="Program.avcode" />
+    <View Path="Program.avview" />
+    <HMI Path="Program.avhmi" />
+  </Files>
+</AuroraVisionProject>

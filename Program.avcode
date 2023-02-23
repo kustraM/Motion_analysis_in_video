@@ -1,0 +1,229 @@
+//:USETYPE WORKERTASK
+public Main()
+{
+	//:LABELDATASOURCE[outFPS] FPS
+	ReadVideo
+	(
+		inFile: "C:\\Users\\Vuko\\Desktop\\polsl\\WSS\\lab 6 7\\MVI_0007.AVI"
+		inStartFrame: 0
+		inRepeat: False
+		outImage: con_8e0d69fe_d1cb_4d67_ba7d_32c3196bcc64
+		outFPS: con_e71e6bbc_8f34_40f3_be60_0cae0a8098a7
+		outFrameNum: Nil
+		outMaxFrame: Nil
+	)
+
+	ReadVideo
+	(
+		inFile: "C:\\Users\\Vuko\\Desktop\\polsl\\WSS\\lab 6 7\\MVI_0007.AVI"
+		inStartFrame: 5
+		inRepeat: False
+		outImage: con_1dc1ce60_9baf_4e1d_8bf2_2d3d993ab4a3
+		outFPS: Nil
+		outFrameNum: Nil
+		outMaxFrame: Nil
+	)
+
+	DifferenceImage
+	(
+		inImage1: con_8e0d69fe_d1cb_4d67_ba7d_32c3196bcc64
+		inImage2: con_1dc1ce60_9baf_4e1d_8bf2_2d3d993ab4a3
+		inRoi: Nil
+		outImage: con_5382dd54_7f39_4e4b_ad32_7410e8f2a5a8
+	)
+
+	ThresholdToRegion
+	(
+		inImage: con_5382dd54_7f39_4e4b_ad32_7410e8f2a5a8
+		inRoi: Nil
+		inMinValue: 57.000000
+		inMaxValue: Nil
+		inHysteresis: 0.000000
+		outRegion: con_3c865bc2_dce9_4360_adef_4188a46395eb
+	)
+
+	//:HIDDENPORT[outBlobs.Count] TRUE
+	//:HIDDENPORT[outBlobs.Area] TRUE
+	SplitRegionIntoBlobs
+	(
+		inRegion: con_3c865bc2_dce9_4360_adef_4188a46395eb
+		inConnectivity: EightDirections
+		inMinBlobArea: 1
+		inMaxBlobArea: Nil
+		inRemoveBoundaryBlobs: False
+		outBlobs: con_03378e26_a224_4971_8e33_6635e1069d86
+		outBlobs.Count: Nil
+		outBlobs.Area: Nil
+	)
+
+	//:HIDDENPORT[outRegion.Area] TRUE
+	RegionUnion_OfArray
+	(
+		inArray: con_03378e26_a224_4971_8e33_6635e1069d86
+		outRegion: con_f0e517ae_2cf4_4405_bf18_525fc67f4cbd
+		outRegion.Area: Nil
+	)
+
+	CloseRegion
+	(
+		inRegion: con_f0e517ae_2cf4_4405_bf18_525fc67f4cbd
+		inKernel: Box
+		inRadiusX: 20
+		inRadiusY: 7
+		outRegion: con_4b23a8ab_99a6_4496_9754_01d4f6422846
+	)
+
+	//:HIDDENPORT[outBlobs.Count] TRUE
+	//:HIDDENPORT[outBlobs.Area] FALSE
+	SplitRegionIntoBlobs
+	(
+		inRegion: con_4b23a8ab_99a6_4496_9754_01d4f6422846
+		inConnectivity: EightDirections
+		inMinBlobArea: 1000
+		inMaxBlobArea: Nil
+		inRemoveBoundaryBlobs: False
+		outBlobs: con_fb09abee_11e9_445e_9a59_25b743047be3
+		outBlobs.Count: Nil
+		outBlobs.FrameWidth: Nil
+		outBlobs.FrameHeight: Nil
+		outBlobs.Area: Nil
+	)
+
+	RegionBoundingBox
+	(
+		inRegion: con_fb09abee_11e9_445e_9a59_25b743047be3
+		outBoundingBox: con_9ff84478_7336_4030_8b82_3892c3f72966
+	)
+
+	BoxCenter
+	(
+		inBox: con_9ff84478_7336_4030_8b82_3892c3f72966
+		outCenter: Nil
+		outCenter.X: con_585948a7_2b71_43fd_a579_71a1091f13c6
+	)
+
+	MakePoint
+	(
+		inX: con_585948a7_2b71_43fd_a579_71a1091f13c6
+		inY: 300.000000
+		outPoint: con_edd9a417_d54d_4dc3_842a_8fe931be78dd
+	)
+
+	ArraySize<Point2D>
+	(
+		inArray: con_edd9a417_d54d_4dc3_842a_8fe931be78dd
+		outSize: con_c4172b07_950a_4c8a_a414_b7de2d5436ac
+	)
+
+	expression
+	{
+		Integer inSize
+		Integer outNewSize = "inSize*2 "
+	}
+	(
+		inSize: con_c4172b07_950a_4c8a_a414_b7de2d5436ac
+		outNewSize: con_4135b433_872c_4be3_8bdc_88eb25e852ad
+	)
+
+	AccumulateArray<Point2D>
+	(
+		inArray: con_edd9a417_d54d_4dc3_842a_8fe931be78dd
+		inMaxSize: con_4135b433_872c_4be3_8bdc_88eb25e852ad
+		inReset: False
+		outArray: con_5fa9c595_f384_42f8_ac37_daac327f8887
+	)
+
+	SlideArray<Point2D>
+	(
+		inArray: con_5fa9c595_f384_42f8_ac37_daac327f8887
+		inShift: con_c4172b07_950a_4c8a_a414_b7de2d5436ac
+		outArray1: con_6e6b0ebc_505e_442d_bfbe_793cf690beb9
+		outArray2: con_01b373bf_126b_4bec_8d06_30048d3ed43b
+	)
+
+	PointToPointDistance
+	(
+		inPoint1: con_6e6b0ebc_505e_442d_bfbe_793cf690beb9
+		inPoint2: con_01b373bf_126b_4bec_8d06_30048d3ed43b
+		inResolution: 1.000000
+		outDistance: con_75411f0c_f857_4648_9b2e_4767a90169f0
+		outConnectingSegment: Nil
+	)
+
+	expression
+	{
+		Real inDistance
+		Real inFps
+		Real outSpeed = "(0.001* inDistance/5) / (5/inFPS/3600)"
+	}
+	(
+		inDistance: con_75411f0c_f857_4648_9b2e_4767a90169f0
+		inFps: con_e71e6bbc_8f34_40f3_be60_0cae0a8098a7
+		outSpeed: con_250504b2_ffdf_4a12_b81b_a9c614f9148f
+	)
+
+	DrawStrings_SingleColor
+	(
+		inImage: con_8e0d69fe_d1cb_4d67_ba7d_32c3196bcc64
+		inStrings: con_250504b2_ffdf_4a12_b81b_a9c614f9148f
+		inLocations: con_01b373bf_126b_4bec_8d06_30048d3ed43b
+		inLocationAlignment: Nil
+		inLocationAnchor: MiddleCenter
+		inColor: Pixel()
+		inDrawingStyle:
+			DrawingStyle
+			(
+				DrawingMode: HighQuality
+				Opacity: 1.000000
+				Thickness: 1.000000
+				Filled: False
+				PointShape: Nil
+				PointSize: 1.000000
+			)
+		inSize: 21.000000
+		inOrientationAngle: 0.000000
+		inForceRgb: True
+		inBackgroundColor:
+			Pixel
+			(
+				X: 255.000000
+				Y: 255.000000
+				Z: 255.000000
+				W: 0.000000
+			)
+		outImage: con_87591aea_a18b_4cdc_80d9_c42d022bc47d
+	)
+
+	DrawRectangles_SingleColor
+	(
+		inImage: con_87591aea_a18b_4cdc_80d9_c42d022bc47d
+		inRectangles: con_9ff84478_7336_4030_8b82_3892c3f72966
+		inRectangleAlignment: Nil
+		inColor:
+			Pixel
+			(
+				X: 255.000000
+				Y: 255.000000
+				Z: 0.000000
+				W: 0.000000
+			)
+		inDrawingStyle:
+			DrawingStyle
+			(
+				DrawingMode: HighQuality
+				Opacity: 1.000000
+				Thickness: 5.000000
+				Filled: False
+				PointShape: Nil
+				PointSize: 52.000000
+			)
+		inForceRgb: True
+		outImage: con_a17c6dd8_f78c_4a97_a012_b6439a0c3341
+	)
+
+	DelayByPeriod
+	(
+		inTime: 30
+	)
+}
+
